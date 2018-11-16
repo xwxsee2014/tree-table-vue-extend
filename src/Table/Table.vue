@@ -71,7 +71,7 @@
   function initialState(table, expandKey) {
     return {
       bodyHeight: 'auto',
-      firstProp: expandKey,
+      firstProp: expandKey || table.columns[0].prop,
       bodyData: getBodyData(table.data, table.treeType, table.childrenProp, table.isFold),
     };
   }
@@ -220,10 +220,7 @@
       cellClassName: [String, Function],
       rowStyle: [Object, Function],
       cellStyle: [Object, Function],
-      expandKey: {
-        type: String,
-        default: 0,
-      },
+      expandKey: String,
     },
     data() {
       return {

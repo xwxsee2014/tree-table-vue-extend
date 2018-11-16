@@ -99,13 +99,13 @@ export default {
   },
   render() {
     // key
-    function getKey(row, rowIndex) {
-      const rowKey = this.table.rowKey;
-      if (rowKey) {
-        return rowKey.call(null, row, rowIndex);
-      }
-      return rowIndex;
-    }
+    // function getKey(row, rowIndex) {
+    //   const rowKey = this.table.rowKey;
+    //   if (rowKey) {
+    //     return rowKey.call(null, row, rowIndex);
+    //   }
+    //   return rowIndex;
+    // }
 
     // style
     function getStyle(type, row, rowIndex, column, columnIndex) {
@@ -252,7 +252,7 @@ export default {
               [
                 <tr
                   v-show={ !row._isHide }
-                  key={ this.table.rowKey ? getKey(row, rowIndex) : rowIndex }
+                  key={ `table_row_${rowIndex}` }
                   style={ getStyle.call(this, 'row', row, rowIndex) }
                   class={ getClassName.call(this, 'row', row, rowIndex) }
                   on-click={ $event => this.handleEvent($event, 'row', { row, rowIndex }) }

@@ -3,6 +3,7 @@
 > A table(with tree-grid) component development based on vue-table-with-tree-grid [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid))
 
 > **在vue-table-with-tree-grid v0.2.4版本基础上，修复了vue新版本对重复key检测造成的警告**
+
 > **添加了自定义显示展开子级按钮的属性expand-key**
 
 ## Example

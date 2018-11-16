@@ -1,7 +1,7 @@
-import ZkTable from './Table/Table';
+import TreeTable from './Table/Table';
 
-ZkTable.install = (Vue) => {
-  Vue.component(ZkTable.name, ZkTable);
+TreeTable.install = (Vue) => {
+  Vue.component(TreeTable.name, TreeTable);
 };
 
-export default ZkTable;
+export default TreeTable;

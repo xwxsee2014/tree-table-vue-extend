@@ -6,7 +6,7 @@
         <zk-switch v-model="props[item.name]"></zk-switch>
       </li>
     </ul>
-    <zk-table
+    <tree-table
       ref="table"
       sum-text="sum"
       index-text="#"
@@ -21,6 +21,7 @@
       :tree-type="props.treeType"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
+      expand-key="sex"
       :selection-type="props.selectionType">
       <template slot="$expand" slot-scope="scope">
         {{ `My name is ${scope.row.name},
@@ -30,7 +31,7 @@
       <template slot="likes" slot-scope="scope">
         <button>123</button>
       </template>
-    </zk-table>
+    </tree-table>
   </div>
 </template>
 

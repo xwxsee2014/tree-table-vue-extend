@@ -3,7 +3,7 @@ import { mixins } from './utils';
 
 /* eslint-disable no-underscore-dangle */
 export default {
-  name: 'zk-table__body',
+  name: 'TreeTable__body',
   mixins: [mixins],
   data() {
     return {

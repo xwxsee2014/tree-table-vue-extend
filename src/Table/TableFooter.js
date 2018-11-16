@@ -2,7 +2,7 @@ import { mixins } from './utils';
 
 /* eslint-disable no-underscore-dangle */
 export default {
-  name: 'zk-table__footer',
+  name: 'TreeTable__footer',
   mixins: [mixins],
   data() {
     return {

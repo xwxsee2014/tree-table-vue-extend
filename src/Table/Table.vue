@@ -68,10 +68,10 @@
     return bodyData;
   }
 
-  function initialState(table) {
+  function initialState(table, expandKey) {
     return {
       bodyHeight: 'auto',
-      firstProp: table.columns[0].prop,
+      firstProp: expandKey,
       bodyData: getBodyData(table.data, table.treeType, table.childrenProp, table.isFold),
     };
   }
@@ -138,7 +138,7 @@
   }
 
   export default {
-    name: 'zk-table',
+    name: 'TreeTable',
     mixins: [mixins],
     components: {
       TableHeader,
@@ -220,13 +220,17 @@
       cellClassName: [String, Function],
       rowStyle: [Object, Function],
       cellStyle: [Object, Function],
+      expandKey: {
+        type: String,
+        default: 0,
+      },
     },
     data() {
       return {
         computedWidth: '',
         computedHeight: '',
         tableColumns: [],
-        ...initialState(this),
+        ...initialState(this, this.expandKey),
       };
     },
     computed: {
@@ -300,7 +304,7 @@
       $props: {
         deep: true,
         handler() {
-          Object.assign(this.$data, initialState(this));
+          Object.assign(this.$data, initialState(this, this.expandKey));
         },
       },
     },

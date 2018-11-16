@@ -1,6 +1,9 @@
-# vue-table-with-tree-grid
+# tree-table-vue
 
-> A table (with tree-grid) component for Vue.js 2.0. (Its style extends [@iView](https://github.com/iview/iview))
+> A table(with tree-grid) component development based on vue-table-with-tree-grid [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid))
+
+> **在vue-table-with-tree-grid v0.2.4版本基础上，修复了vue新版本对重复key检测造成的警告**
+> **添加了自定义显示展开子级按钮的属性expand-key**
 
 ## Example
 
@@ -11,31 +14,31 @@
 Use npm:
 
 ```shell
-npm i vue-table-with-tree-grid -S
+npm i tree-table-vue -S
 ```
 
 Or use yarn:
 
 ```shell
-yarn add vue-table-with-tree-grid
+yarn add tree-table-vue
 ```
 
 ## Usage
 
 ```javascript
 import Vue from 'vue'
-import ZkTable from 'vue-table-with-tree-grid'
+import TreeTable from 'tree-table-vue'
 
-Vue.use(ZkTable)
+Vue.use(TreeTable)
 ```
 
 Or
 
 ```javascript
 import Vue from 'vue'
-import ZkTable from 'vue-table-with-tree-grid'
+import TreeTable from 'tree-table-vue'
 
-Vue.component(ZkTable.name, ZkTable)
+Vue.component(TreeTable.name, TreeTable)
 ```
 
 more information please see [example...](https://github.com/MisterTaki/vue-table-with-tree-gird/blob/master/example/Example.vue), or git clone this repository and open dev mode (I will give it a homepage later...).

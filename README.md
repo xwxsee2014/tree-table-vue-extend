@@ -49,7 +49,7 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | data | 表格各行的数据 | Array | - | [] |
 | empty-text | 表格数据为空时显示的文字 | String | - | '暂无数据' |
 | columns | 表格各列的配置（具体见下文：Columns Configs） | Array | - | [] |
-| expand-key | 需要显示展开按钮的列的key（columns列对象里的prop） | Boolean | - | false |
+| expand-key | 需要显示展开按钮的列的key（columns列对象里的prop） | String | - | 默认是第一列的prop |
 | show-header | 是否显示表头 | Boolean | - | true |
 | show-index | 是否显示数据索引 | Boolean | - | false |
 | index-text | 数据索引名称 | String | - | '序号' |

@@ -25,7 +25,7 @@ export default {
   },
   render() {
     // className
-    function getClassName(type, { headerAlign, prop }) {
+    function getClassName(type, { headerAlign, key }) {
       const certainType = this.validateType(type, ['cell', 'inner'], 'getClassName');
       const classList = [];
       if (certainType.cell) {
@@ -39,7 +39,7 @@ export default {
       }
       if (certainType.inner) {
         classList.push(`${this.prefixCls}__cell-inner`);
-        if (this.table.treeType && this.table.firstProp === prop) {
+        if (this.table.treeType && this.table.firstProp === key) {
           classList.push(`${this.prefixCls}--firstProp-header-inner`);
         }
       }
@@ -57,7 +57,7 @@ export default {
           onOn-change={ checked => this.toggleAllChecked(checked) }
           ></Checkbox>;
       }
-      return column.label ? column.label : '';
+      return column.title ? column.title : '';
     }
 
     // Template

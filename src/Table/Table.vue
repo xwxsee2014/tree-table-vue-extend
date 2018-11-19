@@ -71,7 +71,7 @@
   function initialState(table, expandKey) {
     return {
       bodyHeight: 'auto',
-      firstProp: expandKey || table.columns[0].prop,
+      firstProp: expandKey || table.columns[0].key,
       bodyData: getBodyData(table.data, table.treeType, table.childrenProp, table.isFold),
     };
   }
@@ -94,8 +94,8 @@
     if (table.showIndex) {
       columns.unshift({
         width: '50px',
-        prop: '_normalIndex',
-        label: table.indexText,
+        key: '_normalIndex',
+        title: table.indexText,
       });
     }
     columns.forEach((column, index) => {
@@ -280,17 +280,17 @@
           this.tableColumns = initialColumns(this, clientWidth);
         });
       },
-      getCheckedProp(prop = 'index') {
+      getCheckedProp(key = 'index') {
         if (!this.selectionType) {
           return [];
         }
         const checkedIndexs = [];
         this.bodyData.forEach((item, index) => {
           if (item._isChecked) {
-            if (prop === 'index') {
+            if (key === 'index') {
               checkedIndexs.push(index);
             } else {
-              checkedIndexs.push(item[prop]);
+              checkedIndexs.push(item[key]);
             }
           }
         });

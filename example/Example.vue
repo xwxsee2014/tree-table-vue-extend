@@ -197,22 +197,22 @@
         ],
         columns: [
           {
-            label: 'name',
-            prop: 'name',
+            title: 'name',
+            key: 'name',
             width: '400px',
           },
           {
-            label: 'sex',
-            prop: 'sex',
+            title: 'sex',
+            key: 'sex',
             minWidth: '50px',
           },
           {
-            label: 'score',
-            prop: 'score',
+            title: 'score',
+            key: 'score',
           },
           {
-            label: 'likes',
-            prop: 'likes',
+            title: 'likes',
+            key: 'likes',
             minWidth: '200px',
             type: 'template',
             template: 'likes',

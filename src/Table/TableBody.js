@@ -209,7 +209,7 @@ export default {
           </Checkbox>;
       }
       // Tree's firstProp
-      if (this.table.treeType && this.table.firstProp === column.prop) {
+      if (this.table.treeType && this.table.firstProp === column.key) {
         return <span
           class={ `${this.prefixCls}--level-${row._level}-cell` }
           style={{
@@ -221,15 +221,15 @@ export default {
                 class={ `${this.prefixCls}--tree-icon zk-icon zk-icon-${row._isFold ? 'plus' : 'minus'}-square-o`}
                 on-click={ $event => this.handleEvent($event, 'icon', { row, rowIndex, column, columnIndex }, { isFold: row._isFold }) }></i>
             }
-            { row[column.prop] ? row[column.prop] : '' }
+            { row[column.key] ? row[column.key] : '' }
         </span>;
       }
       // TreeType children's index
-      if (this.table.showIndex && this.table.treeType && column.prop === '_normalIndex' && row._level > 1) {
+      if (this.table.showIndex && this.table.treeType && column.key === '_normalIndex' && row._level > 1) {
         return '';
       }
       if (column.type === undefined || column.type === 'custom') {
-        return row[column.prop];
+        return row[column.key];
       } else if (column.type === 'template') {
         return this.table.$scopedSlots[column.template]
         ? this.table.$scopedSlots[column.template]({ row, rowIndex, column, columnIndex })

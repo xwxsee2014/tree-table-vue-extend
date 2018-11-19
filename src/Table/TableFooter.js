@@ -19,12 +19,12 @@ export default {
   },
   render() {
     // 计算各列总和
-    function renderCell({ prop }, columnIndex) {
+    function renderCell({ key }, columnIndex) {
       if (columnIndex === 0) {
         return this.table.sumText;
       }
       const rows = this.table.bodyData;
-      const values = rows.map(row => Number(row[prop]));
+      const values = rows.map(row => Number(row[key]));
       const precisions = [];
       let notNumber = true;
       values.forEach((value) => {

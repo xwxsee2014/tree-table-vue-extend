@@ -68,7 +68,8 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | children-prop | 树形表格中遍历的属性名称 | String | - | 'children' |
 | is-fold | 树形表格中父级是否默认折叠 | Boolean | - | true |
 | expand-type | 是否为展开行类型表格（为 True 时，需要添加名称为 '$expand' 的[作用域插槽](https://cn.vuejs.org/v2/guide/components.html#作用域插槽), 它可以获取到 row, rowIndex) | Boolean | - | false |
-| selection-type | 是否为多选类型表格 | Boolean | - | false |
+| selectable | 是否为多选类型表格 | Boolean | - | false |
+| select-type | 选择列渲染的形式, radio或checkbox | String | - | checkbox |
 | row-key | 行数据的 Key，用来优化 Table 的渲染 | Function | row, rowIndex | rowIndex |
 | row-class-name | 额外的表格行的类名 | String, Function | row, rowIndex | - |
 | cell-class-name | 额外的表格行的类名 | String, Function | row, rowIndex, column, columnIndex | - |
@@ -79,8 +80,8 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 
 | 属性 | 说明 | 类型 | 默认值 |
 | ---- | ---- | ---- | ---- |
-| label | 列标题名称 | String | '' |
-| prop | 对应列内容的属性名 | String | '' |
+| title | 列标题名称 | String | '' |
+| key | 对应列内容的属性名 | String | '' |
 | align | 对应列内容的对齐方式，可选值有 'center', 'right' | String | 'left' |
 | headerAlign | 对应列标题的对齐方式，可选值有 'center', 'right' | String | 'left' |
 | width | 列宽度 | [String, Number] | 'auto' |

@@ -23,7 +23,7 @@ export default {
       );
     },
     isSelectionCell(table, columnIndex) {
-      return table.selectionType && (
+      return table.selectable && (
         (table.showIndex && table.expandType && columnIndex === 2) ||
         (!table.showIndex && table.expandType && columnIndex === 1) ||
         (table.showIndex && !table.expandType && columnIndex === 1) ||

@@ -48,7 +48,7 @@ export default {
 
     // 根据type渲染单元格Label
     function renderLabel(column, columnIndex) {
-      if (this.isSelectionCell(this.table, columnIndex)) {
+      if (this.isSelectionCell(this.table, columnIndex) && this.selectType === 'checkbox') {
         const allCheck = this.table.bodyData.every(row => row._isChecked);
         const indeterminate = !allCheck && this.table.bodyData.some(row => row._isChecked);
         return <Checkbox

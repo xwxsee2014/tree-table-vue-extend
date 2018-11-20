@@ -1,13 +1,16 @@
 import Checkbox from '../Checkbox/Checkbox'; // eslint-disable-line
+// import Radio from '../Radio/Radio'; // eslint-disable-line
 import { mixins } from './utils';
+import { Radio } from 'iview'; // eslint-disable-line
 
 /* eslint-disable no-underscore-dangle */
 export default {
   name: 'TreeTable__body',
   mixins: [mixins],
+  components: { Radio },
   data() {
     return {
-
+      radioSelectedIndex: -1,
     };
   },
   computed: {
@@ -49,7 +52,7 @@ export default {
       return childrenIndex;
     },
     handleEvent($event, type, data, others) {
-      const certainType = this.validateType(type, ['cell', 'row', 'checkbox', 'icon'], 'handleEvent');
+      const certainType = this.validateType(type, ['cell', 'row', 'checkbox', 'icon', 'radio'], 'handleEvent');
       const eventType = $event ? $event.type : '';
       const { row, rowIndex, column, columnIndex } = data;
       const latestData = this.table.bodyData;
@@ -64,6 +67,11 @@ export default {
           }
         }
         return this.table.$emit('checkbox-click', latestData[rowIndex], column, columnIndex, $event);
+      }
+      // Radio
+      if (certainType.radio) {
+        this.radioSelectedIndex = rowIndex;
+        return this.table.$emit('radio-click', { row, rowIndex, column, columnIndex, $event });
       }
       // Tree's icon
       if (certainType.icon) {
@@ -90,6 +98,10 @@ export default {
           ...target,
           _isHover: hover,
         });
+      }
+      if (certainType.row && others.clickRow) {
+        this.radioSelectedIndex = rowIndex;
+        return this.table.$emit('radio-click', { row, rowIndex, column, columnIndex, $event });
       }
       if (certainType.cell) {
         return this.table.$emit(`${type}-${eventType}`, latestData[rowIndex], rowIndex, column, columnIndex, $event);
@@ -178,36 +190,43 @@ export default {
       }
       // SelectionType's Checkbox
       if (this.isSelectionCell(this.table, columnIndex)) {
-        let allCheck;
-        let childrenIndex;
-        const hasChildren = row._childrenLen > 0;
-        if (hasChildren) {
-          childrenIndex = this.getChildrenIndex(row._level, rowIndex, false);
-          allCheck = true;
-          for (let i = 0; i < childrenIndex.length; i++) {
-            if (!this.table.bodyData[childrenIndex[i]]._isChecked) {
-              allCheck = false;
-              break;
+        let res = null;
+        if (this.table.selectType === 'checkbox') {
+          let allCheck;
+          let childrenIndex;
+          const hasChildren = row._childrenLen > 0;
+          if (hasChildren) {
+            childrenIndex = this.getChildrenIndex(row._level, rowIndex, false);
+            allCheck = true;
+            for (let i = 0; i < childrenIndex.length; i++) {
+              if (!this.table.bodyData[childrenIndex[i]]._isChecked) {
+                allCheck = false;
+                break;
+              }
+            }
+          } else {
+            allCheck = row._isChecked;
+          }
+          let indeterminate = false;
+          if (hasChildren && !allCheck) {
+            for (let i = 0; i < childrenIndex.length; i++) {
+              if (this.table.bodyData[childrenIndex[i]]._isChecked) {
+                indeterminate = true;
+                break;
+              }
             }
           }
-        } else {
-          allCheck = row._isChecked;
-        }
-        let indeterminate = false;
-        if (hasChildren && !allCheck) {
-          for (let i = 0; i < childrenIndex.length; i++) {
-            if (this.table.bodyData[childrenIndex[i]]._isChecked) {
-              indeterminate = true;
-              break;
-            }
-          }
-        }
-        return <Checkbox
-          indeterminate={ indeterminate }
-          value={ allCheck }
-          onOn-change={ isChecked => this.handleEvent(null, 'checkbox', { row, rowIndex, column, columnIndex }, { isChecked }) }>
+          res = <Checkbox
+            indeterminate={ indeterminate }
+            value={ allCheck }
+            onOn-change={ isChecked => this.handleEvent(null, 'checkbox', { row, rowIndex, column, columnIndex }, { isChecked }) }>
           </Checkbox>;
+        } else {
+          res = <Radio value={this.radioSelectedIndex === rowIndex} on-on-change={ () => this.handleEvent(null, 'radio', { row, rowIndex, column, columnIndex }) }></Radio>;
+        }
+        return res;
       }
+
       // Tree's firstProp
       if (this.table.treeType && this.table.firstProp === column.key) {
         return <span
@@ -255,7 +274,7 @@ export default {
                   key={ `table_row_${rowIndex}` }
                   style={ getStyle.call(this, 'row', row, rowIndex) }
                   class={ getClassName.call(this, 'row', row, rowIndex) }
-                  on-click={ $event => this.handleEvent($event, 'row', { row, rowIndex }) }
+                  on-click={ $event => this.handleEvent($event, 'row', { row, rowIndex }, { clickRow: true }) }
                   on-dblclick={ $event => this.handleEvent($event, 'row', { row, rowIndex }) }
                   on-contextmenu={ $event => this.handleEvent($event, 'row', { row, rowIndex }) }
                   on-mouseenter={ $event => this.handleEvent($event, 'row', { row, rowIndex }, { hover: true }) }

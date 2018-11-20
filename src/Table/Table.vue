@@ -86,7 +86,7 @@
         width: '50',
       });
     }
-    if (table.selectionType) {
+    if (table.selectable) {
       columns.unshift({
         width: '50',
       });
@@ -182,9 +182,13 @@
         type: Boolean,
         default: true,
       },
-      selectionType: {
+      selectable: {
         type: Boolean,
         default: true,
+      },
+      selectType: {
+        type: String,
+        default: 'checkbox',
       },
       emptyText: {
         type: String,
@@ -281,7 +285,7 @@
         });
       },
       getCheckedProp(key = 'index') {
-        if (!this.selectionType) {
+        if (!this.selectable) {
           return [];
         }
         const checkedIndexs = [];

@@ -19,10 +19,12 @@
       :show-row-hover="props.showRowHover"
       :show-index="props.showIndex"
       :tree-type="props.treeType"
+      select-type="radio"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
       expand-key="sex"
-      :selection-type="props.selectionType">
+      @radio-click="handleRadioClick"
+      :selection-type="props.selectable">
       <!-- <tree-table
         :columns="columns"
         :expand-type="false"
@@ -60,7 +62,7 @@
           treeType: true,
           isFold: true,
           expandType: false,
-          selectionType: false,
+          selectable: false,
         },
         data: [
           {
@@ -201,27 +203,27 @@
           },
         ],
         columns: [
-          // {
-          //   title: 'name',
-          //   key: 'name',
-          //   width: '400px',
-          // },
-          // {
-          //   title: 'sex',
-          //   key: 'sex',
-          //   minWidth: '50px',
-          // },
-          // {
-          //   title: 'score',
-          //   key: 'score',
-          // },
-          // {
-          //   title: 'likes',
-          //   key: 'likes',
-          //   minWidth: '200px',
-          //   type: 'template',
-          //   template: 'likes',
-          // },
+          {
+            title: 'name',
+            key: 'name',
+            width: '400px',
+          },
+          {
+            title: 'sex',
+            key: 'sex',
+            minWidth: '50px',
+          },
+          {
+            title: 'score',
+            key: 'score',
+          },
+          {
+            title: 'likes',
+            key: 'likes',
+            minWidth: '200px',
+            type: 'template',
+            template: 'likes',
+          },
         ],
       };
     },
@@ -233,7 +235,9 @@
       },
     },
     methods: {
-
+      handleRadioClick(option) {
+        console.log(option); // eslint-disable-line
+      },
     },
   };
 </script>

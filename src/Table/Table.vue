@@ -71,7 +71,7 @@
   function initialState(table, expandKey) {
     return {
       bodyHeight: 'auto',
-      firstProp: expandKey || table.columns[0].key,
+      firstProp: expandKey || (table.columns[0] && table.columns[0].key),
       bodyData: getBodyData(table.data, table.treeType, table.childrenProp, table.isFold),
     };
   }

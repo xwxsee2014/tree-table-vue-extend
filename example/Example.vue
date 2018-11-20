@@ -23,6 +23,11 @@
       :expand-type="props.expandType"
       expand-key="sex"
       :selection-type="props.selectionType">
+      <!-- <tree-table
+        :columns="columns"
+        :expand-type="false"
+        :selection-type="false"
+        :data="data"> -->
       <template slot="$expand" slot-scope="scope">
         {{ `My name is ${scope.row.name},
            this rowIndex is ${scope.rowIndex}.`
@@ -196,27 +201,27 @@
           },
         ],
         columns: [
-          {
-            title: 'name',
-            key: 'name',
-            width: '400px',
-          },
-          {
-            title: 'sex',
-            key: 'sex',
-            minWidth: '50px',
-          },
-          {
-            title: 'score',
-            key: 'score',
-          },
-          {
-            title: 'likes',
-            key: 'likes',
-            minWidth: '200px',
-            type: 'template',
-            template: 'likes',
-          },
+          // {
+          //   title: 'name',
+          //   key: 'name',
+          //   width: '400px',
+          // },
+          // {
+          //   title: 'sex',
+          //   key: 'sex',
+          //   minWidth: '50px',
+          // },
+          // {
+          //   title: 'score',
+          //   key: 'score',
+          // },
+          // {
+          //   title: 'likes',
+          //   key: 'likes',
+          //   minWidth: '200px',
+          //   type: 'template',
+          //   template: 'likes',
+          // },
         ],
       };
     },

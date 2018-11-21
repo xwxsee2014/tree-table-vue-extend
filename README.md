@@ -6,7 +6,7 @@
 
 > **添加了自定义显示展开子级按钮的属性expand-key**
 
-** 注意：v1.0.7版本开始，修改了columns的prop属性为key，label属性为title，修改selection-type为selectable，添加了select-type属性 **
+**注意：v1.0.7版本开始，修改了columns的prop属性为key，label属性为title，修改selection-type为selectable，添加了select-type属性**
 
 ## Example
 

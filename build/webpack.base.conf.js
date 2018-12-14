@@ -1,6 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('./config')
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var isProduction = process.env.NODE_ENV === 'production'
 
 function resolve (dir) {
@@ -35,19 +36,41 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+            use: ['css-loader?minimize'],
+            fallback: 'style-loader'
+        })
+      },
+      {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: utils.cssLoaders({
-            sourceMap: isProduction,
-            extract: isProduction
-          })
-        }
+        use: [
+          {
+            loader: 'vue-loader',
+            options: {
+              loaders: utils.cssLoaders({
+                sourceMap: isProduction,
+                extract: isProduction
+              })
+            }
+          },
+          {
+            loader: 'iview-loader',
+            options: {
+                prefix: false
+            }
+          }
+        ]
+      },
+      {
+        test: /iview\/.*?js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('example')]
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

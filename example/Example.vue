@@ -6,6 +6,10 @@
         <zk-switch v-model="props[item.name]"></zk-switch>
       </li>
     </ul>
+    <Row style="margin: 10px">
+        <Col span="1"><Button type="info" @click="changeData()">Change</Button></Col>
+        <Col span="1"><Button type="success" @click="recoveryData()">Recovery</Button></Col>
+    </Row>
     <tree-table
       ref="table"
       sum-text="sum"
@@ -202,6 +206,144 @@
             ],
           },
         ],
+        dataNormal: [
+          {
+            name: 'Jack',
+            sex: 'male',
+            likes: ['football', 'basketball'],
+            score: 10,
+            children: [
+              {
+                name: 'Ashley',
+                sex: 'female',
+                likes: ['football', 'basketball'],
+                score: 20,
+                children: [
+                  {
+                    name: 'Ashley',
+                    sex: 'female',
+                    likes: ['football', 'basketball'],
+                    score: 20,
+                  },
+                  {
+                    name: 'Taki',
+                    sex: 'male',
+                    likes: ['football', 'basketball'],
+                    score: 10,
+                    children: [
+                      {
+                        name: 'Ashley',
+                        sex: 'female',
+                        likes: ['football', 'basketball'],
+                        score: 20,
+                      },
+                      {
+                        name: 'Taki',
+                        sex: 'male',
+                        likes: ['football', 'basketball'],
+                        score: 10,
+                        children: [
+                          {
+                            name: 'Ashley',
+                            sex: 'female',
+                            likes: ['football', 'basketball'],
+                            score: 20,
+                          },
+                          {
+                            name: 'Taki',
+                            sex: 'male',
+                            likes: ['football', 'basketball'],
+                            score: 10,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: 'Taki',
+                sex: 'male',
+                likes: ['football', 'basketball'],
+                score: 10,
+              },
+            ],
+          },
+          {
+            name: 'Tom',
+            sex: 'male',
+            likes: ['football', 'basketball'],
+            score: 20,
+            children: [
+              {
+                name: 'Ashley',
+                sex: 'female',
+                likes: ['football', 'basketball'],
+                score: 20,
+                children: [
+                  {
+                    name: 'Ashley',
+                    sex: 'female',
+                    likes: ['football', 'basketball'],
+                    score: 20,
+                  },
+                  {
+                    name: 'Taki',
+                    sex: 'male',
+                    likes: ['football', 'basketball'],
+                    score: 10,
+                  },
+                ],
+              },
+              {
+                name: 'Taki',
+                sex: 'male',
+                likes: ['football', 'basketball'],
+                score: 10,
+                children: [
+                  {
+                    name: 'Ashley',
+                    sex: 'female',
+                    likes: ['football', 'basketball'],
+                    score: 20,
+                  },
+                  {
+                    name: 'Taki',
+                    sex: 'male',
+                    likes: ['football', 'basketball'],
+                    score: 10,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'Tom',
+            sex: 'male',
+            likes: ['football', 'basketball'],
+            score: 20,
+          },
+          {
+            name: 'Tom',
+            sex: 'male',
+            likes: ['football', 'basketball'],
+            score: 20,
+            children: [
+              {
+                name: 'Ashley',
+                sex: 'female',
+                likes: ['football', 'basketball'],
+                score: 20,
+              },
+              {
+                name: 'Taki',
+                sex: 'male',
+                likes: ['football', 'basketball'],
+                score: 10,
+              },
+            ],
+          },
+        ],
         columns: [
           {
             title: 'name',
@@ -235,6 +377,12 @@
       },
     },
     methods: {
+      changeData() {
+        this.data[0].children.splice(1,1);
+      },
+      recoveryData() {
+        this.data = Array.from(this.dataNormal);
+      },
       handleRadioClick(option) {
         console.log(option); // eslint-disable-line
       },
@@ -243,11 +391,6 @@
 </script>
 
 <style scoped lang="less">
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
   .switch-list {
     margin: 20px 0;
     list-style: none;

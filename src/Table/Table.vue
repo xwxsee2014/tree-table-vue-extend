@@ -43,9 +43,15 @@
   /* eslint-disable no-underscore-dangle */
   /* eslint-disable no-param-reassign */
 
-  function getBodyData(data, isTreeType, childrenProp, isFold, level = 1) {
+  function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = true, foldStatus = {}, version, level = 1) {
+    // initial data fold status
     let bodyData = [];
     data.forEach((row, index) => {
+      if (foldStatus[row[idProp]] == undefined) {
+        foldStatus[row[idProp]] = {status: isFold, _version: version};
+      } else {
+        foldStatus[row[idProp]]._version = version;
+      }
       const children = row[childrenProp];
       const childrenLen = Object.prototype.toString.call(children).slice(8, -1) === 'Array' ? children.length : 0;
       bodyData.push({
@@ -53,26 +59,32 @@
         _isExpanded: false,
         _isChecked: false,
         _level: level,
-        _isHide: isFold ? level !== 1 : false,
-        _isFold: isFold,
+        _isHide: isHide ? level !== 1 : false,
+        _isFold: foldStatus[row[idProp]].status,
         _childrenLen: childrenLen,
         _normalIndex: index + 1,
         ...row,
       });
       if (isTreeType) {
         if (childrenLen > 0) {
-          bodyData = bodyData.concat(getBodyData(children, true, childrenProp, isFold, level + 1));
+          bodyData = bodyData.concat(getBodyData(children, true, childrenProp, idProp, isFold, foldStatus[row[idProp]].status, foldStatus, version, level + 1).bodyData);
         }
       }
     });
-    return bodyData;
+    return {
+      bodyData: bodyData,
+      foldStatus: foldStatus, //true：折叠，false: 展开
+    };
   }
 
   function initialState(table, expandKey) {
+    // 初始化展开状态
+    if (table.manualFoldStatus == undefined) table.manualFoldStatus = table.isFold ? true : false;
+    if (table.version == undefined) table.version = 1;
     return {
       bodyHeight: 'auto',
       firstProp: expandKey || (table.columns[0] && table.columns[0].key),
-      bodyData: getBodyData(table.data, table.treeType, table.childrenProp, table.isFold),
+      ...getBodyData(table.data, table.treeType, table.childrenProp, table.idProp, table.manualFoldStatus, table.manualFoldStatus, table.foldStatus, table.version),
     };
   }
 
@@ -174,6 +186,10 @@
         type: String,
         default: 'children',
       },
+      idProp: {
+        type: String,
+        default: 'id',
+      },
       isFold: {
         type: Boolean,
         default: true,
@@ -231,6 +247,8 @@
         computedWidth: '',
         computedHeight: '',
         tableColumns: [],
+        manualFoldStatus: true,
+        version: 1,
         ...initialState(this, this.expandKey),
       };
     },
@@ -249,7 +267,7 @@
         return {
           [`${this.prefixCls}--stripe`]: this.stripe,
         };
-      },
+      }
     },
     methods: {
       handleEvent(type, $event) {
@@ -300,11 +318,26 @@
         });
         return checkedIndexs;
       },
+      // 获取展开的id
+      getExpandedIds() { 
+        return Object.keys(this.foldStatus).filter(item => this.foldStatus[item] !== undefined && 
+          this.foldStatus[item].status == false && this.version === this.foldStatus[item]._version);
+      },
+      // 展开/折叠全部
+      foldAll(status) {
+        this.manualFoldStatus = status;
+        this.foldStatus = {};
+        // 数据版本变化
+        this.version++;
+        Object.assign(this.$data, initialState(this, this.expandKey));
+      },
     },
     watch: {
       $props: {
         deep: true,
-        handler() {
+        handler(val, oldVal) {
+          // 数据版本变化
+          this.version++;
           Object.assign(this.$data, initialState(this, this.expandKey));
         },
       },

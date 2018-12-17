@@ -7,8 +7,11 @@
       </li>
     </ul>
     <Row style="margin: 10px">
-        <Col span="1"><Button type="info" @click="changeData()">Change</Button></Col>
-        <Col span="1"><Button type="success" @click="recoveryData()">Recovery</Button></Col>
+        <Button type="info" style="margin-right: 10px" @click="addData()">Add</Button>
+        <Button type="error" style="margin-right: 10px" @click="removeData()">Remove</Button>
+        <Button type="success" style="margin-right: 10px" @click="recoveryData()">Recovery</Button>
+        <Button type="info" style="margin-right: 10px" @click="foldAll()">Fold All</Button>
+        <Button type="info" style="margin-right: 10px" @click="expandAll()">Expand All</Button>
     </Row>
     <tree-table
       ref="table"
@@ -40,7 +43,7 @@
          }}
       </template>
       <template slot="likes" slot-scope="scope">
-        <button>123</button>
+        <Button type="info">{{scope.row.likes}}</Button>
       </template>
     </tree-table>
   </div>
@@ -70,48 +73,56 @@
         },
         data: [
           {
+            id: '1',
             name: 'Jack',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 10,
             children: [
               {
+                id: '2',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
                 children: [
                   {
+                    id: '3',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '4',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
                     score: 10,
                     children: [
                       {
+                        id: '5',
                         name: 'Ashley',
                         sex: 'female',
                         likes: ['football', 'basketball'],
                         score: 20,
                       },
                       {
+                        id: '6',
                         name: 'Taki',
                         sex: 'male',
                         likes: ['football', 'basketball'],
                         score: 10,
                         children: [
                           {
+                            id: '7',
                             name: 'Ashley',
                             sex: 'female',
                             likes: ['football', 'basketball'],
                             score: 20,
                           },
                           {
+                            id: '8',
                             name: 'Taki',
                             sex: 'male',
                             likes: ['football', 'basketball'],
@@ -124,6 +135,7 @@
                 ],
               },
               {
+                id: '9',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
@@ -132,24 +144,28 @@
             ],
           },
           {
+            id: '10',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
             children: [
               {
+                id: '11',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
                 children: [
                   {
+                    id: '12',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '13',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
@@ -158,18 +174,21 @@
                 ],
               },
               {
+                id: '14',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
                 score: 10,
                 children: [
                   {
+                    id: '15',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '16',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
@@ -180,24 +199,28 @@
             ],
           },
           {
+            id: '17',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
           },
           {
+            id: '18',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
             children: [
               {
+                id: '19',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
               },
               {
+                id: '20',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
@@ -208,48 +231,56 @@
         ],
         dataNormal: [
           {
+            id: '1',
             name: 'Jack',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 10,
             children: [
               {
+                id: '2',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
                 children: [
                   {
+                    id: '3',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '4',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
                     score: 10,
                     children: [
                       {
+                        id: '5',
                         name: 'Ashley',
                         sex: 'female',
                         likes: ['football', 'basketball'],
                         score: 20,
                       },
                       {
+                        id: '6',
                         name: 'Taki',
                         sex: 'male',
                         likes: ['football', 'basketball'],
                         score: 10,
                         children: [
                           {
+                            id: '7',
                             name: 'Ashley',
                             sex: 'female',
                             likes: ['football', 'basketball'],
                             score: 20,
                           },
                           {
+                            id: '8',
                             name: 'Taki',
                             sex: 'male',
                             likes: ['football', 'basketball'],
@@ -262,6 +293,7 @@
                 ],
               },
               {
+                id: '9',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
@@ -270,24 +302,28 @@
             ],
           },
           {
+            id: '10',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
             children: [
               {
+                id: '11',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
                 children: [
                   {
+                    id: '12',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '13',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
@@ -296,18 +332,21 @@
                 ],
               },
               {
+                id: '14',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
                 score: 10,
                 children: [
                   {
+                    id: '15',
                     name: 'Ashley',
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
                   },
                   {
+                    id: '16',
                     name: 'Taki',
                     sex: 'male',
                     likes: ['football', 'basketball'],
@@ -318,24 +357,28 @@
             ],
           },
           {
+            id: '17',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
           },
           {
+            id: '18',
             name: 'Tom',
             sex: 'male',
             likes: ['football', 'basketball'],
             score: 20,
             children: [
               {
+                id: '19',
                 name: 'Ashley',
                 sex: 'female',
                 likes: ['football', 'basketball'],
                 score: 20,
               },
               {
+                id: '20',
                 name: 'Taki',
                 sex: 'male',
                 likes: ['football', 'basketball'],
@@ -377,15 +420,36 @@
       },
     },
     methods: {
-      changeData() {
+      addData() {
+        this.data[0].children.push(
+          {
+            id: '0001',
+            name: 'Wenxing',
+            sex: 'male',
+            likes: ['football', 'basketball'],
+            score: 20
+          }
+        );
+      },
+      removeData() {
         this.data[0].children.splice(1,1);
       },
       recoveryData() {
-        this.data = Array.from(this.dataNormal);
+        let firstChildren = this.dataNormal[0].children;
+        this.data[0].children = [...firstChildren];
       },
       handleRadioClick(option) {
         console.log(option); // eslint-disable-line
       },
+      expandedIds() {
+        console.log(this.$refs.table.getExpandedIds());
+      },
+      foldAll() {
+        this.$refs.table.foldAll(true);
+      },
+      expandAll() {
+        this.$refs.table.foldAll(false);
+      }
     },
   };
 </script>

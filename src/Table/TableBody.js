@@ -22,6 +22,10 @@ export default {
     toggleStatus(type, row, rowIndex, value) {
       this.validateType(type, ['Expanded', 'Checked', 'Hide', 'Fold'], 'toggleStatus', false);
       const target = this.table.bodyData[rowIndex];
+      // 更新折叠状态
+      if (type === 'Fold') {
+        this.table.foldStatus[target['id']].status = typeof value === 'undefined' ? !row[`_is${type}`] : value;
+      }
       this.table.bodyData.splice(rowIndex, 1, {
         ...target,
         [`_is${type}`]: typeof value === 'undefined' ? !row[`_is${type}`] : value,

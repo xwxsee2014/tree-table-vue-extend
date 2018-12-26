@@ -26,7 +26,7 @@
       :show-row-hover="props.showRowHover"
       :show-index="props.showIndex"
       :tree-type="props.treeType"
-      select-type="radio"
+      select-type="checkbox"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
       expand-key="sex"
@@ -391,21 +391,38 @@
           {
             title: 'name',
             key: 'name',
-            width: '400px',
+            headerAlign: 'center',
+            align: 'center',
+            width: '400',
           },
           {
-            title: 'sex',
-            key: 'sex',
-            minWidth: '50px',
-          },
-          {
-            title: 'score',
-            key: 'score',
+            title: 'total',
+            Width: '100',
+            headerAlign: 'center',
+            align: 'center',
+            children: [
+              {
+                title: 'sex',
+                key: 'sex',
+                headerAlign: 'center',
+                align: 'center',
+                Width: '50',
+              },
+              {
+                title: 'score',
+                key: 'score',
+                headerAlign: 'center',
+                align: 'center',
+                Width: '50',
+              }
+            ]
           },
           {
             title: 'likes',
             key: 'likes',
-            minWidth: '200px',
+            Width: '100',
+            headerAlign: 'center',
+            align: 'center',
             type: 'template',
             template: 'likes',
           },

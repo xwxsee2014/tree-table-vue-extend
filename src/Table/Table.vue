@@ -39,6 +39,8 @@
   import TableBody from './TableBody';
   import TableFooter from './TableFooter';
   import { mixins, scrollBarWidth as getSbw } from './utils';
+  import { oneOf, getStyle, deepCopy, getScrollBarSize } from './utils/assist';
+  import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './utils/rowutil';
 
   /* eslint-disable no-underscore-dangle */
   /* eslint-disable no-param-reassign */
@@ -92,18 +94,30 @@
     let columnsWidth = 0;
     const minWidthColumns = [];
     const otherColumns = [];
-    const columns = table.columns.concat();
+    const groupColumns = deepCopy(table.columns);
+    const columns = getAllColumns(groupColumns).concat();
     if (table.expandType) {
+      groupColumns.unshift({
+        width: '50',
+      });
       columns.unshift({
         width: '50',
       });
     }
     if (table.selectable) {
+      groupColumns.unshift({
+        width: '50',
+      });
       columns.unshift({
         width: '50',
       });
     }
     if (table.showIndex) {
+      groupColumns.unshift({
+        width: '50px',
+        key: '_normalIndex',
+        title: table.indexText,
+      });
       columns.unshift({
         width: '50px',
         key: '_normalIndex',
@@ -146,7 +160,7 @@
     }
     const tableColumns = otherColumns.concat(minWidthColumns);
     tableColumns.sort((a, b) => a._index - b._index);
-    return tableColumns;
+    return {groupColumns: groupColumns, tableColumns: tableColumns};
   }
 
   export default {
@@ -247,6 +261,7 @@
         computedWidth: '',
         computedHeight: '',
         tableColumns: [],
+        tableColumnRows: [],
         manualFoldStatus: true,
         version: 1,
         ...initialState(this, this.expandKey),
@@ -299,7 +314,9 @@
           if (this.maxHeight !== 'auto' && this.computedHeight > maxHeight) {
             this.bodyHeight = `${maxHeight - 83}px`;
           }
-          this.tableColumns = initialColumns(this, clientWidth);
+          const columnObj = initialColumns(this, clientWidth);
+          this.tableColumns = columnObj.tableColumns;
+          this.tableColumnRows = convertToRows(columnObj.groupColumns, false);
         });
       },
       getCheckedProp(key = 'index') {

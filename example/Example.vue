@@ -30,6 +30,7 @@
       :is-fold="props.isFold"
       :expand-type="props.expandType"
       expand-key="sex"
+      style="width: 800px"
       @radio-click="handleRadioClick"
       :selection-type="props.selectable">
       <!-- <tree-table
@@ -43,7 +44,16 @@
          }}
       </template>
       <template slot="likes" slot-scope="scope">
-        <Button type="info">{{scope.row.likes}}</Button>
+          <Dropdown trigger="click">
+              <Button type="primary">
+                  <Icon type="md-arrow-dropdown" />
+              </Button>
+              <DropdownMenu slot="list">
+                  <DropdownItem name="1">新增</DropdownItem>
+                  <DropdownItem name="2">修改</DropdownItem>
+                  <DropdownItem name="3">删除</DropdownItem>
+              </DropdownMenu>
+          </Dropdown>
       </template>
     </tree-table>
   </div>
@@ -393,11 +403,11 @@
             key: 'name',
             headerAlign: 'center',
             align: 'center',
-            width: '400',
+            width: '400px',
           },
           {
             title: 'total',
-            Width: '100',
+            width: '200px',
             headerAlign: 'center',
             align: 'center',
             children: [
@@ -406,21 +416,21 @@
                 key: 'sex',
                 headerAlign: 'center',
                 align: 'center',
-                Width: '50',
+                width: '100px',
               },
               {
                 title: 'score',
                 key: 'score',
                 headerAlign: 'center',
                 align: 'center',
-                Width: '50',
+                width: '100px',
               }
             ]
           },
           {
             title: 'likes',
             key: 'likes',
-            Width: '100',
+            width: '300px',
             headerAlign: 'center',
             align: 'center',
             type: 'template',

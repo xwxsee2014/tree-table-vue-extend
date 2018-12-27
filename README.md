@@ -1,12 +1,12 @@
-# tree-table-vue
+# tree-table-vue-exend
 
-> A table(with tree-grid) component development based on vue-table-with-tree-grid [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid))
+> AA table (with tree-grid) component which based on tree-table-vue v1.1.0 for Vue.js 2.0 and add some features based on team's own need. [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid)) and [@lison16](https://github.com/lison16/tree-table-vue)
 
-> **在vue-table-with-tree-grid v0.2.4版本基础上，修复了vue新版本对重复key检测造成的警告**
+> **优化点：数据更新后已展开节点不会收折**
 
-> **添加了自定义显示展开子级按钮的属性expand-key**
+> **优化点：修复使用dropdown组件会被下滚动条遮挡的问题**
 
-**注意：v1.0.7版本开始，修改了columns的prop属性为key，label属性为title，修改selection-type为selectable，添加了select-type属性**
+> **优化点：单元格编辑功能**
 
 ## Example
 

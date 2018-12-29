@@ -19,6 +19,7 @@ export default {
     },
   },
   methods: {
+    
     toggleStatus(type, row, rowIndex, value) {
       this.validateType(type, ['Expanded', 'Checked', 'Hide', 'Fold'], 'toggleStatus', false);
       const target = this.table.bodyData[rowIndex];
@@ -56,7 +57,7 @@ export default {
       return childrenIndex;
     },
     handleEvent($event, type, data, others) {
-      const certainType = this.validateType(type, ['cell', 'row', 'checkbox', 'icon', 'radio'], 'handleEvent');
+      const certainType = this.validateType(type, ['cell', 'row', 'checkbox', 'icon', 'radio', 'edit'], 'handleEvent');
       const eventType = $event ? $event.type : '';
       const { row, rowIndex, column, columnIndex } = data;
       const latestData = this.table.bodyData;
@@ -103,12 +104,55 @@ export default {
           _isHover: hover,
         });
       }
+      // cell: Hover
+      if (certainType.cell && (eventType === 'mouseenter')) {
+        const target = latestData[rowIndex];
+        const hoverCell = Object.assign({}, target._hoverCell)
+        hoverCell[column.key] = 'inline-block';
+        latestData.splice(rowIndex, 1, {
+          ...target,
+          _hoverCell: hoverCell,
+        });
+      }
+      if (certainType.cell && (eventType === 'mouseleave')) {
+        const target = latestData[rowIndex];
+        const hoverCell = Object.assign({}, target._hoverCell)
+        hoverCell[column.key] = 'none';
+        latestData.splice(rowIndex, 1, {
+          ...target,
+          _hoverCell: hoverCell,
+        });
+      }
       if (certainType.row && others && others.clickRow) {
         this.radioSelectedIndex = rowIndex;
         return this.table.$emit('radio-click', { row, rowIndex, column, columnIndex, $event });
       }
+      if (certainType.cell && eventType === 'blur') {
+        console.log('blur');
+        const inputValue = this.$refs.inputref.value;
+        const target = latestData[rowIndex];
+        const inputCell = Object.assign({}, target._inputCell)
+        inputCell[column.key] = false;
+        latestData.splice(rowIndex, 1, {
+          ...target,
+          _inputCell: inputCell,
+        });
+        // 出发事件
+        const newRow = Object.assign({}, row)
+        newRow[column.key] = inputValue;
+        return this.table.$emit('input-blur', {newRow});
+      }
       if (certainType.cell) {
         return this.table.$emit(`${type}-${eventType}`, latestData[rowIndex], rowIndex, column, columnIndex, $event);
+      }
+      if (certainType.edit) {
+        const target = latestData[rowIndex];
+        const inputCell = Object.assign({}, target._inputCell)
+        inputCell[column.key] = true;
+        latestData.splice(rowIndex, 1, {
+          ...target,
+          _inputCell: inputCell,
+        });
       }
       return this.table.$emit(`${type}-${eventType}`, latestData[rowIndex], rowIndex, $event);
     },
@@ -236,15 +280,22 @@ export default {
         return <span
           class={ `${this.prefixCls}--level-${row._level}-cell` }
           style={{
-            marginLeft: `${(row._level - 1) * 24}px`,
-            paddingLeft: row._childrenLen === 0 ? '20px' : '',
+            marginLeft: row._inputCell[column.key] ? `0px` : `${(row._level - 1) * 24}px`,
+            paddingLeft: row._inputCell[column.key] ? `0px` : (row._childrenLen === 0 ? '20px' : ''),
           }}>
             { row._childrenLen > 0 &&
               <i
                 class={ `${this.prefixCls}--tree-icon zk-icon zk-icon-${row._isFold ? 'plus' : 'minus'}-square-o`}
                 on-click={ $event => this.handleEvent($event, 'icon', { row, rowIndex, column, columnIndex }, { isFold: row._isFold }) }></i>
             }
-            { row[column.key] ? row[column.key] : '' }
+            {
+              row._inputCell[column.key] ?
+              <span><input style={ `width: ${column.computedWidth || column.minWidth || column.width}`} ref="inputref" on-blur={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) } value={row[column.key]}></input>{ focusTheInput.call(this) }</span>
+              :
+              <span>{row[column.key]}{this.table.editable ?  <a on-click={ $event => this.handleEvent($event, 'edit', { row, rowIndex, column, columnIndex }) }
+              style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑" 
+              class="zk-icon-pencil" href="javascript:;"></a> : <span></span>}</span>
+            }
         </span>;
       }
       // TreeType children's index
@@ -252,13 +303,26 @@ export default {
         return '';
       }
       if (column.type === undefined || column.type === 'custom') {
-        return row[column.key];
+        return <span>{
+          row._inputCell[column.key] ?
+          <span><input style={ `width: ${column.computedWidth || column.minWidth || column.width}px`} ref="inputref" on-blur={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) } value={row[column.key]}></input>{ focusTheInput.call(this) }</span>
+          :
+          <span>{row[column.key]}{this.table.editable ? <a on-click={ $event => this.handleEvent($event, 'edit', { row, rowIndex, column, columnIndex }) } 
+          style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑" 
+          class="zk-icon-pencil" href="javascript:;"></a> : <span></span>}</span>
+        }</span>;
       } else if (column.type === 'template') {
         return this.table.$scopedSlots[column.template]
         ? this.table.$scopedSlots[column.template]({ row, rowIndex, column, columnIndex })
         : '';
       }
       return '';
+    }
+
+    function focusTheInput() {
+      if (this.$refs.inputref !== undefined) {
+        this.$refs.inputref.focus()
+      }
     }
 
     // Template

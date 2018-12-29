@@ -18,6 +18,7 @@
       sum-text="sum"
       index-text="#"
       :data="data"
+      :editable="props.editable"
       :columns="columns"
       :stripe="props.stripe"
       :border="props.border"
@@ -26,12 +27,13 @@
       :show-row-hover="props.showRowHover"
       :show-index="props.showIndex"
       :tree-type="props.treeType"
-      select-type="checkbox"
+      select-type="radio"
+      :radio-status-reset="props.radioStatuReset"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
       expand-key="sex"
-      style="width: 800px"
       @radio-click="handleRadioClick"
+      @input-blur="inputOnBlur"
       :selection-type="props.selectable">
       <!-- <tree-table
         :columns="columns"
@@ -78,8 +80,10 @@
           showIndex: false,
           treeType: true,
           isFold: true,
+          editable: false,
           expandType: false,
           selectable: false,
+          radioStatuReset: true,
         },
         data: [
           {
@@ -466,10 +470,13 @@
         this.data[0].children = [...firstChildren];
       },
       handleRadioClick(option) {
-        console.log(option); // eslint-disable-line
+        // console.log(option); // eslint-disable-line
+      },
+      inputOnBlur(row) {
+        console.log(row);
       },
       expandedIds() {
-        console.log(this.$refs.table.getExpandedIds());
+        // console.log(this.$refs.table.getExpandedIds());
       },
       foldAll() {
         this.$refs.table.foldAll(true);

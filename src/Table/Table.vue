@@ -353,8 +353,8 @@
         return checkedIndexs;
       },
       // 获取展开的id
-      getExpandedIds() { 
-        return Object.keys(this.foldStatus).filter(item => this.foldStatus[item] !== undefined && 
+      getExpandedIds() {
+        return Object.keys(this.foldStatus).filter(item => this.foldStatus[item] !== undefined &&
           this.foldStatus[item].status == false && this.version === this.foldStatus[item]._version);
       },
       // 展开/折叠全部

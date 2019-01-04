@@ -19,7 +19,7 @@ export default {
     },
   },
   methods: {
-    
+
     toggleStatus(type, row, rowIndex, value) {
       this.validateType(type, ['Expanded', 'Checked', 'Hide', 'Fold'], 'toggleStatus', false);
       const target = this.table.bodyData[rowIndex];
@@ -230,6 +230,10 @@ export default {
       return classList.join(' ');
     }
 
+    function renderTitle(row, rowIndex, column, columnIndex) {
+      return row[column.key];
+    }
+
     // 根据type渲染单元格Cell
     function renderCell(row, rowIndex, column, columnIndex) {
       // ExpandType
@@ -293,7 +297,7 @@ export default {
               <span><input style={ `width: ${column.computedWidth || column.minWidth || column.width}`} ref="inputref" on-blur={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) } value={row[column.key]}></input>{ focusTheInput.call(this) }</span>
               :
               <span>{row[column.key]}{this.table.editable ?  <a on-click={ $event => this.handleEvent($event, 'edit', { row, rowIndex, column, columnIndex }) }
-              style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑" 
+              style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑"
               class="zk-icon-pencil" href="javascript:;"></a> : <span></span>}</span>
             }
         </span>;
@@ -307,8 +311,8 @@ export default {
           row._inputCell[column.key] ?
           <span><input style={ `width: ${column.computedWidth || column.minWidth || column.width}px`} ref="inputref" on-blur={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) } value={row[column.key]}></input>{ focusTheInput.call(this) }</span>
           :
-          <span>{row[column.key]}{this.table.editable ? <a on-click={ $event => this.handleEvent($event, 'edit', { row, rowIndex, column, columnIndex }) } 
-          style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑" 
+          <span>{row[column.key]}{this.table.editable ? <a on-click={ $event => this.handleEvent($event, 'edit', { row, rowIndex, column, columnIndex }) }
+          style={ `margin-left: 5px;display: ${row._hoverCell[column.key]}` } title="可双击单元格空白处进行编辑"
           class="zk-icon-pencil" href="javascript:;"></a> : <span></span>}</span>
         }</span>;
       } else if (column.type === 'template') {
@@ -356,7 +360,7 @@ export default {
                         on-contextmenu={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) }
                         on-mouseenter={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) }
                         on-mouseleave={ $event => this.handleEvent($event, 'cell', { row, rowIndex, column, columnIndex }) }>
-                        <div class={ getClassName.call(this, 'inner', row, rowIndex, column, columnIndex) }>
+                        <div title={ renderTitle.call(this, row, rowIndex, column, columnIndex)} class={ getClassName.call(this, 'inner', row, rowIndex, column, columnIndex) }>
                           { renderCell.call(this, row, rowIndex, column, columnIndex) }
                         </div>
                       </td>)

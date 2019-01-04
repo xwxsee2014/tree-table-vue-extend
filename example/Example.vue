@@ -407,11 +407,11 @@
             key: 'name',
             headerAlign: 'center',
             align: 'center',
-            width: '400px',
+//            width: '400px',
           },
           {
             title: 'total',
-            width: '200px',
+//            width: '200px',
             headerAlign: 'center',
             align: 'center',
             children: [
@@ -420,21 +420,21 @@
                 key: 'sex',
                 headerAlign: 'center',
                 align: 'center',
-                width: '100px',
+//                width: '100px',
               },
               {
                 title: 'score',
                 key: 'score',
                 headerAlign: 'center',
                 align: 'center',
-                width: '100px',
+//                width: '100px',
               }
             ]
           },
           {
             title: 'likes',
             key: 'likes',
-            width: '300px',
+//            width: '300px',
             headerAlign: 'center',
             align: 'center',
             type: 'template',

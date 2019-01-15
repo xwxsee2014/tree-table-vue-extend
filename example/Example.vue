@@ -45,6 +45,9 @@
            this rowIndex is ${scope.rowIndex}.`
          }}
       </template>
+      <template slot="sex" slot-scope="scope">
+        <span :style="{'color': scope.row.sex === 'male' ? 'green' : 'red' }">{{ scope.row.sex }}</span>
+      </template>
       <template slot="likes" slot-scope="scope">
           <Dropdown trigger="click">
               <Button type="primary">
@@ -420,6 +423,8 @@
                 key: 'sex',
                 headerAlign: 'center',
                 align: 'center',
+                type: 'template',
+                template: 'sex',
 //                width: '100px',
               },
               {

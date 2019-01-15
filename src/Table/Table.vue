@@ -55,12 +55,12 @@
         foldStatus[row[idProp]]._version = version;
       }
       // 单元格hover状态对象
-      let hoverCell = {};
-      let inputCell = {};
-      Object.keys(row).forEach((key, index) => {
-        hoverCell[key] = 'none';
-        inputCell[key] = false;
-      })
+      // let hoverCell = {};
+      // let inputCell = {};
+      // Object.keys(row).forEach((key, index) => {
+      //   hoverCell[key] = 'none';
+      //   inputCell[key] = false;
+      // })
       const children = row[childrenProp];
       const childrenLen = Object.prototype.toString.call(children).slice(8, -1) === 'Array' ? children.length : 0;
       bodyData.push({
@@ -72,8 +72,6 @@
         _isFold: foldStatus[row[idProp]].status,
         _childrenLen: childrenLen,
         _normalIndex: index + 1,
-        _hoverCell: hoverCell,
-        _inputCell: inputCell,
         ...row,
       });
       if (isTreeType) {

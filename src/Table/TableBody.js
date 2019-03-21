@@ -25,7 +25,7 @@ export default {
       const target = this.table.bodyData[rowIndex];
       // 更新折叠状态
       if (type === 'Fold') {
-        this.table.foldStatus[target['id']].status = typeof value === 'undefined' ? !row[`_is${type}`] : value;
+        this.table.foldStatus[target[this.table.idProp]].status = typeof value === 'undefined' ? !row[`_is${type}`] : value;
       }
       this.table.bodyData.splice(rowIndex, 1, {
         ...target,

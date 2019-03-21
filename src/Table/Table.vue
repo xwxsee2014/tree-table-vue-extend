@@ -31,6 +31,9 @@
         ref="table-footer">
       </table-footer>
     </div>
+    <Spin fix size="large" v-if="loading">
+        <slot name="loading"></slot>
+    </Spin>
   </div>
 </template>
 
@@ -38,6 +41,7 @@
   import TableHeader from './TableHeader';
   import TableBody from './TableBody';
   import TableFooter from './TableFooter';
+  import Spin from './spin/spin.vue';
   import { mixins, scrollBarWidth as getSbw } from './utils';
   import { oneOf, getStyle, deepCopy, getScrollBarSize } from './utils/assist';
   import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './utils/rowutil';
@@ -45,12 +49,12 @@
   /* eslint-disable no-underscore-dangle */
   /* eslint-disable no-param-reassign */
 
-  function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = true, foldStatus = {}, version, level = 1) {
+function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = true, foldStatus = {}, version, level = 1) {
     // initial data fold status
     let bodyData = [];
     data.forEach((row, index) => {
       if (foldStatus[row[idProp]] == undefined) {
-        foldStatus[row[idProp]] = {status: isFold, _version: version};
+        foldStatus[row[idProp]] = {status: isFold, _version: version, row: row};
       } else {
         foldStatus[row[idProp]]._version = version;
       }
@@ -177,6 +181,7 @@
       TableHeader,
       TableBody,
       TableFooter,
+      Spin,
     },
     props: {
       data: {
@@ -264,12 +269,20 @@
         type: Boolean,
         default: false
       },
+      laodingText: {
+        type: String,
+        default: '',
+      },
       rowKey: Function,
       rowClassName: [String, Function],
       cellClassName: [String, Function],
       rowStyle: [Object, Function],
       cellStyle: [Object, Function],
       expandKey: String,
+      loading: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -350,10 +363,15 @@
         });
         return checkedIndexs;
       },
-      // 获取展开的id
-      getExpandedIds() {
-        return Object.keys(this.foldStatus).filter(item => this.foldStatus[item] !== undefined &&
+      // 获取展开的列信息
+      getExpandedRows() {
+        let expandRowIndexs = Object.keys(this.foldStatus).filter(item => this.foldStatus[item] !== undefined &&
           this.foldStatus[item].status == false && this.version === this.foldStatus[item]._version);
+        let expandRows = [];
+        for (var i in expandRowIndexs) {
+          expandRows.push(this.foldStatus[expandRowIndexs[i]]);
+        }
+        return expandRows;
       },
       // 展开/折叠全部
       foldAll(status) {

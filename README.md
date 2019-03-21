@@ -2,11 +2,15 @@
 
 > AA table (with tree-grid) component which based on tree-table-vue v1.1.0 for Vue.js 2.0 and add some features based on team's own need. [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid)) and [@lison16](https://github.com/lison16/tree-table-vue)
 
-> **优化点：数据更新后已展开节点不会收折**
+> **优化点：数据更新后已展开节点不会收折，需要通过`idProp`属性指定数据中唯一key(如默认的`id`字段: `idProp="id"`)**
 
 > **优化点：修复使用dropdown组件会被下滚动条遮挡的问题**
 
-> **优化点：树形单元格无法使用template**
+> **优化点：解决树形单元格无法使用template**
+
+> **优化点：添加`getExpandedRows`方法获取已展开的行数据**
+
+> **优化点：添加`loading`属性，提供默认数据加载动画，也可通过slot方式自定义载入样式`<tree-table><div slot="loading">数据载入中...</div></tree-table>`**
 
 ## Example
 
@@ -30,7 +34,7 @@ yarn add tree-table-vue
 
 ```javascript
 import Vue from 'vue'
-import TreeTable from 'tree-table-vue'
+import TreeTable from 'tree-table-vue-extend'
 
 Vue.use(TreeTable)
 ```
@@ -39,7 +43,7 @@ Or
 
 ```javascript
 import Vue from 'vue'
-import TreeTable from 'tree-table-vue'
+import TreeTable from 'tree-table-vue-extend'
 
 Vue.component(TreeTable.name, TreeTable)
 ```
@@ -77,6 +81,7 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | cell-class-name | 额外的表格行的类名 | String, Function | row, rowIndex, column, columnIndex | - |
 | row-style | 额外的表格行的样式 | Object, Function | row, rowIndex | - |
 | cell-style | 额外的表格单元格的样式 | Object, Function | row, rowIndex, column, columnIndex | - |
+| loading | 是否显示载入中状态 | Boolean | - | false |
 
 ### Columns Configs
 
@@ -114,3 +119,4 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | 方法名 | 说明 | 参数 |
 | ---- | ---- | ---- |
 | getCheckedProp | 当表格为多选类型表格时，用于获取当前所选项的属性，返回一个数组；属性默认为'index'。 | prop |
+| getExpandedRows | 获取当前展开的列 | 无 |

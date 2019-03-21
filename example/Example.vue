@@ -12,6 +12,7 @@
         <Button type="success" style="margin-right: 10px" @click="recoveryData()">Recovery</Button>
         <Button type="info" style="margin-right: 10px" @click="foldAll()">Fold All</Button>
         <Button type="info" style="margin-right: 10px" @click="expandAll()">Expand All</Button>
+        <Button type="info" style="margin-right: 10px" @click="expandRows()">Show Expanded Rows</Button>
     </Row>
     <tree-table
       ref="table"
@@ -31,6 +32,8 @@
       :radio-status-reset="props.radioStatuReset"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
+      :loading="props.loading"
+      idProp="id"
       expand-key="sex"
       @radio-click="handleRadioClick"
       @input-blur="inputOnBlur"
@@ -83,6 +86,7 @@
           showIndex: false,
           treeType: true,
           isFold: true,
+          loading: false,
           editable: false,
           expandType: false,
           selectable: false,
@@ -480,14 +484,17 @@
       inputOnBlur(row) {
         console.log(row);
       },
-      expandedIds() {
-        // console.log(this.$refs.table.getExpandedIds());
-      },
+      // expandedIds() {
+      //   this.$refs.table.getExpandedIds()
+      // },
       foldAll() {
         this.$refs.table.foldAll(true);
       },
       expandAll() {
         this.$refs.table.foldAll(false);
+      },
+      expandRows() {
+        console.log(this.$refs.table.getExpandedRows());
       }
     },
   };

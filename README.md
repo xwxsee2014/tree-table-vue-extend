@@ -14,6 +14,40 @@
 
 > **优化点：添加`loading`属性，提供默认数据加载动画，也可通过slot方式自定义载入样式`<tree-table><div slot="loading">数据载入中...</div></tree-table>`**
 
+> **优化点：快速添加子项，自定义`template`，用法如下（按钮及表单为[iView](https://www.iviewui.com/)组件）**
+
+```html
+<!-- 调用tree-table，并指定属性create-data-obj -->
+<tree-table :create-data-obj="createDataObj">
+  <template slot="$createdata" slot-scope="createdata">
+    <!-- 自定义部分开始 -->
+    <!-- 创建父级数据按钮 -->
+    <div style="margin-left: 50px;padding: 5px;" v-show="!createdata.tmpData.status && createdata.rowIndex == -1">
+      <Button type="info" style="margin-left: 10px" @click="showCreateDataForm(createdata)">Add</Button>
+    </div>
+    <!-- 创建数据表单 -->
+    <div style="margin-left: 50px;padding: 5px;" v-show="createdata.tmpData.status">
+      <Form :model="createdata.tmpData.data" inline>
+        <FormItem prop="name">
+            <Input type="text" v-model="createdata.tmpData.data.name" placeholder="name">
+            </Input>
+        </FormItem>
+        <FormItem prop="sex">
+            <Input type="text" v-model="createdata.tmpData.data.sex" placeholder="sex">
+            </Input>
+        </FormItem>
+        <FormItem>
+            <Button type="primary" @click="addDataAndHideForm(createdata)">Add</Button>
+        </FormItem>
+      </Form>
+    </div>
+    <!-- 自定义部分结束 -->
+  </template>
+</tree-table>
+```
+
+其中`scope`对象`createdata`包含三个对象`row`-当前操作列，`rowIndex`-当前操作列索引号(从-1开始)，`tmpData`-当前操作列状态信息(包含表单对象属性`data`和表单显示状态属性`status`)，同时需要通过`props`指定表单对象模板属性`create-data-obj`，该属性为需要新增的表单对像;
+
 ## Example
 
 ![Example](./example/example.gif)

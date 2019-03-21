@@ -493,7 +493,37 @@
       showCreateDataForm(createData) {
         createData.tmpData.status = true;
       },
+      getMatchedRow(data, id, newData) {
+        for (var i in data) {
+            if (data[i].id == id) {
+              if (data[i].children != undefined) {
+                data[i].children.push(newData);
+              } else {
+                data[i].children = [];
+                data[i].children.push(newData);
+              }
+              return true;
+            }
+        }
+        for (var i in data) {
+            if (data[i].children != undefined) {
+              if (this.getMatchedRow(data[i].children, id, newData) == true) {
+                return true;
+              }
+            }
+        }
+        return false;
+      },
       addDataAndHideForm(createData) {
+        var newData = {};
+        Object.assign(newData, createData.tmpData.data);
+        newData.id = Math.random().toString(36).substr(2);
+        if (createData.rowIndex == -1) {
+          this.data.push(newData);
+        } else {
+          // 递归获取
+          this.getMatchedRow(this.data, createData.row.id, newData);
+        }
         createData.tmpData.status = false;
       },
       createChild(row) {
@@ -502,7 +532,7 @@
       addData() {
         this.data[0].children.push(
           {
-            id: '0001',
+            id: Math.random().toString(36).substr(2),
             name: 'Wenxing',
             sex: 'male',
             likes: ['football', 'basketball'],

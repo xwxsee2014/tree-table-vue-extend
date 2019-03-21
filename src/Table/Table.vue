@@ -94,10 +94,27 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
     // 初始化展开状态
     if (table.manualFoldStatus == undefined) table.manualFoldStatus = table.isFold ? true : false;
     if (table.version == undefined) table.version = 1;
+    let {bodyData, foldStatus} = getBodyData(table.data, table.treeType, table.childrenProp, table.idProp, table.manualFoldStatus, table.manualFoldStatus, table.foldStatus, table.version);
+    let tmpData = table.tmpData == undefined ? {'$firstdata': {status: false, data: Object.assign({}, table.createDataObj)}} : table.tmpData;
+    if (tmpData['$firstdata'].status == false){
+      // 重置数据
+      tmpData['$firstdata'].data = Object.assign({}, table.createDataObj);
+    }
+    Object.keys(foldStatus).forEach(function(key, index) {
+      if (tmpData[key] == undefined) {
+        // 创建新数据
+        tmpData[key] = {status: false, data: Object.assign({}, table.createDataObj)};
+      } else if (tmpData[key].status = false) {
+        // 重置数据
+        tmpData[key].data = Object.assign({}, table.createDataObj);
+      }
+    });
     return {
       bodyHeight: 'auto',
       firstProp: expandKey || (table.columns[0] && table.columns[0].key),
-      ...getBodyData(table.data, table.treeType, table.childrenProp, table.idProp, table.manualFoldStatus, table.manualFoldStatus, table.foldStatus, table.version),
+      bodyData: bodyData,
+      foldStatus: foldStatus,
+      tmpData: tmpData
     };
   }
 

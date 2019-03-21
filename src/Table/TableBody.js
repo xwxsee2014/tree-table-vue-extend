@@ -191,6 +191,11 @@ export default {
       return row[column.key];
     }
 
+    // 渲染自定义行
+    function renderCustomRow(row, rowIndex, tmpData) {
+      return this.table.$scopedSlots['$createdata']({row, rowIndex, tmpData});
+    }
+
     // 根据type渲染单元格Cell
     function renderCell(row, rowIndex, column, columnIndex) {
       // ExpandType
@@ -272,6 +277,8 @@ export default {
       return '';
     }
 
+    var $table = this.table;
+    var $idProp = this.table.idProp;
     // Template
     return (
       <table cellspacing="0" cellpadding="0" border="0" class={ `${this.prefixCls}__body` }>
@@ -281,6 +288,7 @@ export default {
           }
         </colgroup>
         <tbody>
+          <tr><td colspan="999"><div class={ `${this.prefixCls}__body-tmpdata` }>{renderCustomRow.call(this, {}, -1, $table.tmpData['$firstdata'])}</div></td></tr>
           { this.table.bodyData.length > 0
             ? this.table.bodyData.map((row, rowIndex) =>
               [
@@ -322,6 +330,7 @@ export default {
                     }
                    </td>
                 </tr>,
+                <tr><td colspan="999"><div class={ `${this.prefixCls}__body-tmpdata` }>{renderCustomRow.call(this, row, rowIndex, $table.tmpData[row[$idProp]])}</div></td></tr>
               ])
             : <tr
                 class={ `${this.prefixCls}--empty-row` }>

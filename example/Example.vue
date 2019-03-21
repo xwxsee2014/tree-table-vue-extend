@@ -35,6 +35,7 @@
       :loading="props.loading"
       idProp="id"
       expand-key="sex"
+      :create-data-obj="createDataObj"
       @radio-click="handleRadioClick"
       @input-blur="inputOnBlur"
       :selection-type="props.selectable">
@@ -43,21 +44,41 @@
         :expand-type="false"
         :selection-type="false"
         :data="data"> -->
-      <template slot="$expand" slot-scope="scope">
+      <template slot="$createdata" slot-scope="createdata">
+        <div style="margin-left: 50px;padding: 5px;" v-show="!createdata.tmpData.status && createdata.rowIndex == -1">
+          <Button type="info" style="margin-left: 10px" @click="showCreateDataForm(createdata)">Add</Button>
+        </div>
+        <div style="margin-left: 50px;padding: 5px;" v-show="createdata.tmpData.status">
+          <Form :model="createdata.tmpData.data" inline>
+            <FormItem prop="name">
+                <Input type="text" v-model="createdata.tmpData.data.name" placeholder="name">
+                </Input>
+            </FormItem>
+            <FormItem prop="sex">
+                <Input type="text" v-model="createdata.tmpData.data.sex" placeholder="sex">
+                </Input>
+            </FormItem>
+            <FormItem>
+                <Button type="primary" @click="addDataAndHideForm(createdata)">Add</Button>
+            </FormItem>
+          </Form>
+        </div>
+      </template>
+      <!-- <template slot="$expand" slot-scope="scope">
         {{ `My name is ${scope.row.name},
            this rowIndex is ${scope.rowIndex}.`
          }}
-      </template>
+      </template> -->
       <template slot="sex" slot-scope="scope">
         <span :style="{'color': scope.row.sex === 'male' ? 'green' : 'red' }">{{ scope.row.sex }}</span>
       </template>
       <template slot="likes" slot-scope="scope">
-          <Dropdown trigger="click">
+          <Dropdown trigger="click" @on-click="createChild(scope.row)">
               <Button type="primary">
                   <Icon type="md-arrow-dropdown" />
               </Button>
               <DropdownMenu slot="list">
-                  <DropdownItem name="1">新增</DropdownItem>
+                  <DropdownItem name="1">新增子项</DropdownItem>
                   <DropdownItem name="2">修改</DropdownItem>
                   <DropdownItem name="3">删除</DropdownItem>
               </DropdownMenu>
@@ -91,6 +112,10 @@
           expandType: false,
           selectable: false,
           radioStatuReset: true,
+        },
+        createDataObj: {
+          name: '',
+          sex: ''
         },
         data: [
           {
@@ -414,6 +439,7 @@
             key: 'name',
             headerAlign: 'center',
             align: 'center',
+            fixed: 'left',
 //            width: '400px',
           },
           {
@@ -450,6 +476,10 @@
             template: 'likes',
           },
         ],
+        formInline: {
+          name: 'Erixu',
+          sex: 'male',
+        }
       };
     },
     computed: {
@@ -460,6 +490,15 @@
       },
     },
     methods: {
+      showCreateDataForm(createData) {
+        createData.tmpData.status = true;
+      },
+      addDataAndHideForm(createData) {
+        createData.tmpData.status = false;
+      },
+      createChild(row) {
+        this.$refs.table.tmpData[row.id].status = true;
+      },
       addData() {
         this.data[0].children.push(
           {

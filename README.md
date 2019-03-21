@@ -2,6 +2,8 @@
 
 > AA table (with tree-grid) component which based on tree-table-vue v1.1.0 for Vue.js 2.0 and add some features based on team's own need. [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid)) and [@lison16](https://github.com/lison16/tree-table-vue)
 
+> **优化点：提供表头单元格合并功能，详细用法请参考`example/Example.vue`**
+
 > **优化点：数据更新后已展开节点不会收折，需要通过`idProp`属性指定数据中唯一key(如默认的`id`字段: `idProp="id"`)**
 
 > **优化点：修复使用dropdown组件会被下滚动条遮挡的问题**

@@ -48,7 +48,7 @@
         :expand-type="false"
         :selection-type="false"
         :data="data"> -->
-      <!-- <template slot="$createdata" slot-scope="createdata">
+      <template slot="$createdata" slot-scope="createdata">
         <div style="margin-left: 50px;padding: 5px;" v-show="!createdata.tmpData.status && createdata.rowIndex == -1">
           <Button type="info" style="margin-left: 10px" @click="showCreateDataForm(createdata)">Add</Button>
         </div>
@@ -67,7 +67,7 @@
             </FormItem>
           </Form>
         </div>
-      </template> -->
+      </template>
       <!-- <template slot="$expand" slot-scope="scope">
         {{ `My name is ${scope.row.name},
            this rowIndex is ${scope.rowIndex}.`

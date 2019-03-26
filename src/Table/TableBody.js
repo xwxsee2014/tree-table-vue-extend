@@ -302,7 +302,7 @@ export default {
           }
         </colgroup>
         <tbody>
-          <tr><td colspan="999"><div class={ `${this.prefixCls}__body-tmpdata` }>{this.table.$scopedSlots['$createdata'] ? renderCustomRow.call(this, {}, -1, $table.tmpData['$firstdata']) : ''}</div></td></tr>
+          <tr><td colspan={this.table.tableColumns.length}><div class={ `${this.prefixCls}__body-tmpdata` }>{this.table.$scopedSlots['$createdata'] ? renderCustomRow.call(this, {}, -1, $table.tmpData['$firstdata']) : ''}</div></td></tr>
           { this.table.bodyData.length > 0
             ? this.table.bodyData.map((row, rowIndex) =>
               [

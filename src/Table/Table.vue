@@ -67,7 +67,6 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       // })
       const children = row[childrenProp];
       const childrenLen = Object.prototype.toString.call(children).slice(8, -1) === 'Array' ? children.length : 0;
-      console.log(disabledRows.indexOf(row[idProp]) > 0 ? true : false);
       bodyData.push({
         _isHover: false,
         _isExpanded: false,

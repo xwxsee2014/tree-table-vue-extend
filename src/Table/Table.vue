@@ -49,7 +49,7 @@
   /* eslint-disable no-underscore-dangle */
   /* eslint-disable no-param-reassign */
 
-function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = true, foldStatus = {}, version, level = 1) {
+function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = true, foldStatus = {}, version, level = 1, disabledRows, checkedRows) {
     // initial data fold status
     let bodyData = [];
     data.forEach((row, index) => {
@@ -67,10 +67,12 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       // })
       const children = row[childrenProp];
       const childrenLen = Object.prototype.toString.call(children).slice(8, -1) === 'Array' ? children.length : 0;
+      console.log(disabledRows.indexOf(row[idProp]) > 0 ? true : false);
       bodyData.push({
         _isHover: false,
         _isExpanded: false,
-        _isChecked: false,
+        _isChecked: checkedRows.indexOf(row[idProp]) > 0 ? true : false,
+        _isDisabled: disabledRows.indexOf(row[idProp]) > 0 ? true : false,
         _level: level,
         _isHide: isHide ? level !== 1 : false,
         _isFold: foldStatus[row[idProp]].status,
@@ -80,7 +82,7 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       });
       if (isTreeType) {
         if (childrenLen > 0) {
-          bodyData = bodyData.concat(getBodyData(children, true, childrenProp, idProp, isFold, foldStatus[row[idProp]].status, foldStatus, version, level + 1).bodyData,);
+          bodyData = bodyData.concat(getBodyData(children, true, childrenProp, idProp, isFold, foldStatus[row[idProp]].status, foldStatus, version, level + 1, disabledRows, checkedRows).bodyData,);
         }
       }
     });
@@ -94,13 +96,14 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
     // 初始化展开状态
     if (table.manualFoldStatus == undefined) table.manualFoldStatus = table.isFold ? true : false;
     if (table.version == undefined) table.version = 1;
-    let {bodyData, foldStatus} = getBodyData(table.data, table.treeType, table.childrenProp, table.idProp, table.manualFoldStatus, table.manualFoldStatus, table.foldStatus, table.version);
+    let {bodyData, foldStatus} = getBodyData(table.data, table.treeType, table.childrenProp, table.idProp, table.manualFoldStatus, table.manualFoldStatus, table.foldStatus, table.version, 1, table.disabledRows, table.checkedRows);
     let tmpData = table.tmpData == undefined ? {'$firstdata': {status: false, data: Object.assign({}, table.createDataObj)}} : table.tmpData;
     if (tmpData['$firstdata'].status == false){
       // 重置数据
       tmpData['$firstdata'].data = Object.assign({}, table.createDataObj);
     }
     Object.keys(foldStatus).forEach(function(key, index) {
+      table.treeLoading[key] = false;
       if (tmpData[key] == undefined) {
         // 创建新数据
         tmpData[key] = {status: false, data: Object.assign({}, table.createDataObj)};
@@ -249,6 +252,10 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
         type: String,
         default: 'checkbox',
       },
+      forceExpandIconProp: {
+        type: String,
+        default: 'isBase'
+      },
       emptyText: {
         type: String,
         default: '暂无数据',
@@ -299,6 +306,20 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       loading: {
         type: Boolean,
         default: false
+      },
+      treeLoading: {
+        type: Object,
+        default: function(){
+          return {};
+        }
+      },
+      disabledRows: {
+        type: Array,
+        default: () => [],
+      },
+      checkedRows: {
+        type: Array,
+        default: () => [],
       }
     },
     data() {
@@ -364,18 +385,22 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
           this.tableColumnRows = convertToRows(columnObj.groupColumns, false);
         });
       },
-      getCheckedProp(key = 'index') {
+      getCheckedProps(key = ['index']) {
         if (!this.selectable) {
           return [];
         }
         const checkedIndexs = [];
         this.bodyData.forEach((item, index) => {
           if (item._isChecked) {
-            if (key === 'index') {
-              checkedIndexs.push(index);
-            } else {
-              checkedIndexs.push(item[key]);
+            var props = {};
+            for (var i in key) {
+              if (key[i] === 'index') {
+                props[key[i]] = index;
+              } else {
+                props[key[i]] = item[key[i]];
+              }
             }
+            checkedIndexs.push(props);
           }
         });
         return checkedIndexs;

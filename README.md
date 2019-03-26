@@ -16,6 +16,16 @@
 
 > **优化点：快速添加子项，自定义`template`，用法如下（按钮及表单为[iView](https://www.iviewui.com/)组件）**
 
+> **优化点：优化getCheckedProp为getCheckedProps方法，入参为行数据的属性key的数组，如['id', 'name']就可以获取id和name的值**
+
+> **优化点：优化tree-icon-click时间回调参数isExpanded，用于异步拉去数据，如果为`true`说明是展开事件**
+
+> **优化点：添加`treeLoading`属性，通过`this.$refs.table.treeLoading[row['id']] = true`将图标变换为loading图标，其中`id`需要与`id-prop`属性一致**
+
+> **优化点：添加`checkedRows`属性，通过`id-prop`属性初始化已选行**
+
+> **优化点：添加`disabledRows`属性，通过`id-prop`属性初始化禁选行**
+
 ```html
 <!-- 调用tree-table，并指定属性create-data-obj -->
 <tree-table :create-data-obj="createDataObj">
@@ -112,12 +122,15 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | expand-type | 是否为展开行类型表格（为 True 时，需要添加名称为 '$expand' 的[作用域插槽](https://cn.vuejs.org/v2/guide/components.html#作用域插槽), 它可以获取到 row, rowIndex) | Boolean | - | false |
 | selectable | 是否为多选类型表格 | Boolean | - | false |
 | select-type | 选择列渲染的形式, radio或checkbox | String | - | checkbox |
+| loading | 是否显示载入中状态 | Boolean | - | false |
+| id-prop | 指定行数据唯一标识的列key | String | - | 'id' |
+| checkedRows | 初始化已选行，数组的值需要为`id-prop`指定列的值 | Array | - | [] |
+| disabledRows | 初始化禁选行，数组的值需要为`id-prop`指定列的值 | Array | - | [] |
 | row-key | 行数据的 Key，用来优化 Table 的渲染 | Function | row, rowIndex | rowIndex |
 | row-class-name | 额外的表格行的类名 | String, Function | row, rowIndex | - |
 | cell-class-name | 额外的表格行的类名 | String, Function | row, rowIndex, column, columnIndex | - |
 | row-style | 额外的表格行的样式 | Object, Function | row, rowIndex | - |
 | cell-style | 额外的表格单元格的样式 | Object, Function | row, rowIndex, column, columnIndex | - |
-| loading | 是否显示载入中状态 | Boolean | - | false |
 
 ### Columns Configs
 
@@ -147,12 +160,12 @@ more information please see [example...](https://github.com/MisterTaki/vue-table
 | row-mouseenter | 鼠标滑入某一行 | row, rowIndex, $event |
 | row-mouseleave | 鼠标滑出某一行 | row, rowIndex, $event |
 | checkbox-click | 鼠标单击checkbox | row, rowIndex, $event |
-| tree-icon-click | 鼠标单击树形icon | row, rowIndex, $event |
+| tree-icon-click | 鼠标单击树形icon | row, column, columnIndex, $event, isExpanded(表示当前是展开(true)还是收则(false)) |
 | expand-cell-click | 鼠标单击展开单元格 | row, rowIndex, $event |
 
 ### Table Methods
 
 | 方法名 | 说明 | 参数 |
 | ---- | ---- | ---- |
-| getCheckedProp | 当表格为多选类型表格时，用于获取当前所选项的属性，返回一个数组；属性默认为'index'。 | prop |
+| getCheckedProp | 当表格为多选类型表格时，用于获取当前所选项的属性，返回一个数组；属性默认为['index']。 | array |
 | getExpandedRows | 获取当前展开的列 | 无 |

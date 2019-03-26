@@ -28,16 +28,20 @@
       :show-row-hover="props.showRowHover"
       :show-index="props.showIndex"
       :tree-type="props.treeType"
-      select-type="radio"
+      select-type="checkbox"
       :radio-status-reset="props.radioStatuReset"
       :is-fold="props.isFold"
       :expand-type="props.expandType"
       :loading="props.loading"
-      idProp="id"
+      force-expand-icon-prop="isBase"
+      id-prop="id"
       expand-key="sex"
+      :disabledRows="disabledRows"
+      :checkedRows="checkedRows"
       :create-data-obj="createDataObj"
       @radio-click="handleRadioClick"
       @input-blur="inputOnBlur"
+      @tree-icon-click="expandEvent"
       :selection-type="props.selectable">
       <!-- <tree-table
         :columns="columns"
@@ -138,6 +142,7 @@
                     sex: 'female',
                     likes: ['football', 'basketball'],
                     score: 20,
+                    isBase: false,
                   },
                   {
                     id: '4',
@@ -479,7 +484,9 @@
         formInline: {
           name: 'Erixu',
           sex: 'male',
-        }
+        },
+        disabledRows: ['1','2','3'],
+        checkedRows: ['1','2','3']
       };
     },
     computed: {
@@ -553,6 +560,10 @@
       inputOnBlur(row) {
         console.log(row);
       },
+      expandEvent(row, column, columnIndex, $event, isExpanded) {
+        this.$refs.table.treeLoading[row['id']] = true;
+        console.log(column);
+      },
       // expandedIds() {
       //   this.$refs.table.getExpandedIds()
       // },
@@ -563,7 +574,7 @@
         this.$refs.table.foldAll(false);
       },
       expandRows() {
-        console.log(this.$refs.table.getExpandedRows());
+        console.log(this.$refs.table.getCheckedProps(['id', 'name', 'sex']));
       }
     },
   };

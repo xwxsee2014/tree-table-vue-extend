@@ -86,7 +86,8 @@ export default {
         for (let i = 0; i < childrenIndex.length; i++) {
           this.toggleStatus('Hide', latestData[childrenIndex[i]], childrenIndex[i]);
         }
-        return this.table.$emit('tree-icon-click', latestData[rowIndex], column, columnIndex, $event);
+        var isExpanded = $event.target.className.indexOf('fa-plus-square-o') > 0;
+        return this.table.$emit('tree-icon-click', latestData[rowIndex], column, columnIndex, $event, isExpanded);
       }
       if (certainType.cell && eventType === 'click') {
         // 点击扩展单元格
@@ -209,6 +210,7 @@ export default {
           let allCheck;
           let childrenIndex;
           const hasChildren = row._childrenLen > 0;
+          let allDisabled = false;
           if (hasChildren) {
             childrenIndex = this.getChildrenIndex(row._level, rowIndex, false);
             allCheck = true;
@@ -218,7 +220,15 @@ export default {
                 break;
               }
             }
+            allDisabled = true;
+            for (let i = 0; i < childrenIndex.length; i++) {
+              if (!this.table.bodyData[childrenIndex[i]]._isDisabled) {
+                allDisabled = false;
+                break;
+              }
+            }
           } else {
+            allDisabled = row._isDisabled;
             allCheck = row._isChecked;
           }
           let indeterminate = false;
@@ -233,6 +243,7 @@ export default {
           res = <Checkbox
             indeterminate={ indeterminate }
             value={ allCheck }
+            disabled = { allDisabled }
             onOn-change={ isChecked => this.handleEvent(null, 'checkbox', { row, rowIndex, column, columnIndex }, { isChecked }) }>
           </Checkbox>;
         } else {
@@ -249,10 +260,13 @@ export default {
             marginLeft: `${(row._level - 1) * 24}px`,
             paddingLeft: row._childrenLen === 0 ? '20px' : '',
           }}>
-            { row._childrenLen > 0 &&
+            { (!this.table.treeLoading[row[this.table.idProp]] && (row._childrenLen > 0 || (row[this.table.forceExpandIconProp] != undefined && !row[this.table.forceExpandIconProp]))) &&
               <i
-                class={ `${this.prefixCls}--tree-icon zk-icon zk-icon-${row._isFold ? 'plus' : 'minus'}-square-o`}
+                class={ `${this.prefixCls}--tree-icon fa fa-${row._isFold ? 'plus' : 'minus'}-square-o`}
                 on-click={ $event => this.handleEvent($event, 'icon', { row, rowIndex, column, columnIndex }, { isFold: row._isFold }) }></i>
+            }
+            { (this.table.treeLoading[row[this.table.idProp]]) &&
+              <i class={ `${this.prefixCls}--tree-icon fa fa-spinner fa-spin fa-fw`}></i>
             }
             <span>
               {

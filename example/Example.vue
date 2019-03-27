@@ -36,6 +36,7 @@
       force-expand-icon-prop="isBase"
       id-prop="id"
       expand-key="sex"
+      maxHeight="200px"
       :disabledRows="disabledRows"
       :checkedRows="checkedRows"
       :create-data-obj="createDataObj"
@@ -104,7 +105,7 @@
       return {
         props: {
           stripe: false,
-          border: false,
+          border: true,
           showHeader: true,
           showSummary: false,
           showRowHover: true,

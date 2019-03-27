@@ -1,6 +1,6 @@
 {
   "name": "tree-table-vue-extend",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A table (with tree-grid) component for Vue.js 2.0 and add some features based on team's own need. (Its style extends iView)",
   "keywords": [
     "vue",

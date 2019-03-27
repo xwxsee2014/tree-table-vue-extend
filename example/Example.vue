@@ -36,7 +36,7 @@
       force-expand-icon-prop="isBase"
       id-prop="id"
       expand-key="sex"
-      maxHeight="200px"
+      maxHeight="500px"
       :disabledRows="disabledRows"
       :checkedRows="checkedRows"
       :create-data-obj="createDataObj"

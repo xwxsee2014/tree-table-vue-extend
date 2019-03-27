@@ -92,7 +92,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 10000000,
           name: 'fonts/[name].[hash:7].[ext]'
         }
       }

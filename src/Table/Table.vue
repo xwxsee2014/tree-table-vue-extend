@@ -178,7 +178,7 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       }
       columnsWidth += minWidth || width;
     });
-    const scrollBarWidth = getSbw();
+    const scrollBarWidth = 0;
     const totalWidth = columnsWidth + scrollBarWidth;
     const isScrollX = totalWidth > clientWidth;
     if (!isScrollX) {
@@ -371,6 +371,7 @@ function getBodyData(data, isTreeType, childrenProp, idProp, isFold, isHide = tr
       // computedWidth, computedHeight, tableColumns
       measure() {
         this.$nextTick(() => {
+          console.log(this.$el.clientHeight);
           const { clientWidth, clientHeight } = this.$el;
           this.computedWidth = clientWidth + 2;
           this.computedHeight = clientHeight + 2;

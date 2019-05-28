@@ -63,14 +63,12 @@ module.exports = {
         ]
       },
       {
-        test: /iview\/.*?js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        include: [
+          path.join(__dirname, '../node_modules/iview'),
+          path.join(__dirname, '../src')
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

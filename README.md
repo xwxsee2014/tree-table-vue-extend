@@ -2,6 +2,8 @@
 
 > AA table (with tree-grid) component which based on tree-table-vue v1.1.0 for Vue.js 2.0 and add some features based on team's own need. [@MisterTaki](https://github.com/MisterTaki/vue-table-with-tree-grid)) and [@lison16](https://github.com/lison16/tree-table-vue)
 
+> 当前版本`v1.0.12`
+
 > **优化点：提供表头单元格合并功能，详细用法请参考`example/Example.vue`**
 
 > **优化点：数据更新后已展开节点不会收折，需要通过`idProp`属性指定数据中唯一key(如默认的`id`字段: `idProp="id"`)**
@@ -22,7 +24,9 @@
 
 > **优化点：优化tree-icon-click时间回调参数isExpanded，用于异步拉去数据，如果为`true`说明是展开事件**
 
-> **优化点：添加`treeLoading`属性，通过`this.$refs.table.treeLoading[row['id']] = true`将图标变换为loading图标，其中`id`需要与`id-prop`属性一致**
+> **优化点：通过`this.$refs.table.treeLoading[row[$idProp]] = true`将唯一标志指定行的展开图标变换为loading图标，其中`$idProp`需要替换为`id-prop`属性值**
+
+> **优化点：添加`loading`属性，显示/隐藏数据载入遮罩**
 
 > **优化点：添加`checkedRows`属性，通过`id-prop`属性初始化已选行**
 
